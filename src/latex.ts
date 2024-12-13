@@ -1,7 +1,6 @@
-import {parser} from "./syntax.grammar"
+import {parser} from "./latex.grammar"
 import {LRLanguage, LanguageSupport, indentNodeProp, foldNodeProp, foldInside, delimitedIndent} from "@codemirror/language"
 import {styleTags, tags as t} from "@lezer/highlight"
-import {HighlightStyle} from "@codemirror/highlight"
 
 // Define the LaTeX language
 export const latexLanguage = LRLanguage.define({
@@ -28,14 +27,8 @@ export const latexLanguage = LRLanguage.define({
   }
 })
 
-// Define a highlight style for LaTeX commands
-const latexHighlightStyle = HighlightStyle.define([
-  {tag: t.keyword, color: "blue"} // LaTeX commands appear blue
-]);
 
 // Export the LaTeX language support
 export function latex() {
-  return new LanguageSupport(latexLanguage, [
-    latexHighlightStyle
-  ]);
+  return new LanguageSupport(latexLanguage);
 }
