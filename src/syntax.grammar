@@ -1,7 +1,23 @@
-@top LaTeX
+@top Program { expression* }
 
-LaTeX {
-  Command ::= "\\" CommandName
-  CommandName { @extend Name }
-  Name { /[A-Za-z]+/ }
+@skip { space | LineComment }
+
+expression {
+  Command |
+  Identifier |
+  String |
+  Boolean |
+  Application { "(" expression* ")" }
 }
+
+@tokens {
+  Command { "\\" $[a-zA-Z_\-]+ }
+  Identifier { $[a-zA-Z_\-0-9]+ }
+  String { '"' (!["\\] | "\\" _)* '"' }
+  Boolean { "#t" | "#f" }
+  LineComment { ";" ![\n]* }
+  space { $[ \t\n\r]+ }
+  "(" ")"
+}
+
+@detectDelim

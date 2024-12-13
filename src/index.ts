@@ -3,7 +3,9 @@ import {LRLanguage, LanguageSupport, indentNodeProp, foldNodeProp, foldInside, d
 import {styleTags, tags as t} from "@lezer/highlight"
 import {HighlightStyle} from "@codemirror/highlight"
 
-export const LatexLanguage = LRLanguage.define({
+// Define the LaTeX language
+export const latexLanguage = LRLanguage.define({
+  name: "latex",
   parser: parser.configure({
     props: [
       indentNodeProp.add({
@@ -13,7 +15,11 @@ export const LatexLanguage = LRLanguage.define({
         Application: foldInside
       }),
       styleTags({
-        CommandName: t.keyword, // Highlighting \commands as keywords
+        Identifier: t.variableName,
+        Boolean: t.bool,
+        String: t.string,
+        LineComment: t.lineComment,
+        "( )": t.paren
       })
     ]
   }),
@@ -22,13 +28,14 @@ export const LatexLanguage = LRLanguage.define({
   }
 })
 
-// Define a highlight style where 'keyword' (our CommandName) is colored blue
+// Define a highlight style for LaTeX commands
 const latexHighlightStyle = HighlightStyle.define([
-  {tag: t.keyword, color: "blue"}
+  {tag: t.keyword, color: "blue"} // LaTeX commands appear blue
 ]);
 
+// Export the LaTeX language support
 export function latex() {
-  return new LanguageSupport(LatexLanguage, [
+  return new LanguageSupport(latexLanguage, [
     latexHighlightStyle
   ]);
 }
